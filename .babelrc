@@ -1,4 +1,23 @@
 {
     "presets": ["next/babel"],
-    "plugins": []
+    "plugins": [
+        [
+            "styled-components",
+            {
+                "ssr": true,
+                "displayName": true,
+                "preprocess": false,
+                "minify": false,
+                "pure": true,
+                "transforms": {
+                    "injectGlobal": false,
+                    "css": false,
+                    "css.modules": false,
+                    "js": false,
+                    "jsx": false,
+                    "typescript": false
+                }
+            }
+        ]
+    ]
 }

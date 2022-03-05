@@ -1,8 +1,12 @@
+import Home from '../components/Home'
+import Layout from '../components/Layout'
+
+
 const HomePage = () => {
   return (
-    <div>
-      <h1>testinggg</h1>
-    </div>
+    <Layout>
+      <Home />
+    </Layout>
   )
 }
 
