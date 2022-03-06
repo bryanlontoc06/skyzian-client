@@ -1,12 +1,17 @@
 import Sidebar from './Sidebar';
+import { Flex } from '@chakra-ui/react';
+import {MainContainer} from './components'
+
 
 const Layout = ({children}) => {
     return (
-        <>
-            <button style={{display: 'flex', marginLeft: 'auto'}}>testtt</button>
-            <Sidebar />
-            {children}
-        </>
+        <MainContainer>
+            <Flex>
+                {/* <button style={{display: 'flex', marginLeft: 'auto'}}>testtt</button> */}
+                <Sidebar />
+                {children}
+            </Flex>
+        </MainContainer>
     );
 }
 

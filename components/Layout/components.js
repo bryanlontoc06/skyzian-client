@@ -16,3 +16,7 @@ export const AppSidebar = styled.div`
 export const AppHeaderLogo = styled.div`
     
 `
+
+export const MainContainer = styled.div `
+    margin: 1rem;
+`
