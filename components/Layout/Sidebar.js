@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {AppSidebar, AppHeaderLogo} from './components'
+import React, {useState, useEffect} from 'react';
 import {FiMenu, FiHome, FiCalendar, FiUser} from 'react-icons/fi';
 import NavItem from './NavItem';
+import useHooks from './hooks';
 import { 
   Flex, 
   Divider, 
@@ -15,14 +15,19 @@ import {
 
 const Sidebar = () => {
   const [navSize, changeNavSize] = useState("large");
+  const {isLargerThan1200} = useHooks();
 
+  useEffect(() => {
+    if(isLargerThan1200) {
+      changeNavSize("large");
+    } else {
+      changeNavSize("small");
+    }
+  }, [isLargerThan1200])
+  
+    
 
     return (
-      // <>
-      //   <AppSidebar>
-      //     <AppHeaderLogo></AppHeaderLogo>
-      //   </AppSidebar>
-      // </>
       <Flex
         // background='red'
         pos='sticky'
@@ -35,16 +40,20 @@ const Sidebar = () => {
         w={navSize === "small" ? "75px" : "200px"}
         flexDir="column"
         justifyContent="space-between"
+        style={{ transition: `all .3s ease`}}
+        onMouseOver={() => changeNavSize("large")}
+        onMouseOut={() => changeNavSize("small")}
       >
         <Flex
           p="5%"
           flexDir="column"
           alignItems={navSize === "small" ? "center" : "flex-start"}
+          style={{ transition: `all .3s ease`}}
           as="nav"
         >
-          <IconButton 
+          {/* <IconButton 
             background="none"
-            mt={navSize === "small" ? 5 : ""}
+            // mt={navSize === "small" ? 5 : ""}
             _hover={{background: 'none'}}
             icon={<FiMenu />}
             onClick={() => { 
@@ -53,7 +62,7 @@ const Sidebar = () => {
               else
                 changeNavSize('small')
             }}
-          />
+          /> */}
           <NavItem navSize={navSize} icon={FiHome} title="Dashboard" description="This is a Dashboard description" />
           <NavItem navSize={navSize} icon={FiCalendar} title="Calendar" active description="This is a Calendar description" />
           <NavItem navSize={navSize} icon={FiUser} title="Clients" description="This is a Client description" />

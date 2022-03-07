@@ -24,20 +24,19 @@ const NavItem = ({navSize, title, icon, active, description}) => {
         alignItems={navSize === 'small' ? 'center' : 'flex-start'}
     >
         <Menu placement="right" >
-            <Tooltip label={description} placement='right'>
+            <Tooltip hasArrow openDelay={800} label={description} placement='right'>
                 <Link
+                    style={{display: 'flex'}}
                     backgroundColor={active && "#AEC8CA"}
                     p={3}
                     borderRadius={8}
                     _hover={{textDecoration: 'none', backgroundColor: '#AEC8CA'}}
                     w={(navSize === 'large') && '100%'}
-                    onMouseOver={() => { console.log('hover') }}
-                    onMouseLeave={() => { console.log('hoverOut') }}
                 >
                     <MenuButton w="100%">
                         <Flex>
                             <Icon as={icon} fontSize="xl" color={active? "#82AAAD" : "gray.500"} />
-                            <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'}>{title}</Text>
+                            <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'} >{title}</Text>
                         </Flex>
                     </MenuButton>
                 </Link>
