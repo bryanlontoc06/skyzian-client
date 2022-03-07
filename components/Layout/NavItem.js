@@ -18,7 +18,8 @@ const NavItem = ({navSize, title, icon, active, description}) => {
 
   return (
     <Flex
-        mt={30}
+        mt={15}
+        mb={15}
         flexDir="column"
         w="100%"
         alignItems={navSize === 'small' ? 'center' : 'flex-start'}
