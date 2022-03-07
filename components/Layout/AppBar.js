@@ -1,18 +1,22 @@
 import React, {useState} from 'react'
-import {FiSearch} from 'react-icons/fi';
-import {RiArrowRightSLine, RiArrowLeftSLine} from 'react-icons/ri';
-import {SearchBoxContainer} from './components'
+import {FiSearch, FiMenu} from 'react-icons/fi';
+import { IconButtonContainer} from './components'
+import SearchnAvatar from './SearchnAvatar';
+import {BsThreeDotsVertical} from 'react-icons/bs';
+import {Media} from '../helper/media'
 import { 
   Flex, 
   Input, 
   InputGroup, 
   InputLeftElement, 
   InputRightElement, 
-  Avatar } from '@chakra-ui/react';
+  Avatar,
+  IconButton
+} from '@chakra-ui/react';
 
 
 
-const AppBar = () => {
+const AppBar = ({navSize, changeNavSize}) => {
 
   const [searchIsOpen, setSearchIsOpen] = useState(false);
 
@@ -39,43 +43,38 @@ const AppBar = () => {
         alignItems= 'center'
         style={{ transition: `all .3s ease`}}
       >
-        <SearchBoxContainer
-          searchIsOpen={searchIsOpen}
-          onClick={() => handleSearchIcon()}
-        >
-          <InputGroup>
-            <Input 
-              placeholder='search' 
-              border="none" 
-              borderRadius="30px" 
-              w={searchIsOpen? '290px' : '0'} 
-              transition= 'all 0.5s cubic-bezier(0, 0.105, 0.035, 1.2)'
-            />
-              <InputLeftElement
-                pointerEvents='none'
-                children={<FiSearch />}
-                background='rgba(0, 0, 0, 0.05)'
-                borderRadius='100%'
-                cursor='pointer'
-              />
-              <InputRightElement 
-                children={searchIsOpen ? 
-                  <RiArrowLeftSLine 
-                    background={`rgba(0, 0, 0, 0.06)`} 
-                    cursor='pointer'
-                  /> : 
-                  <RiArrowRightSLine 
-                    background={`rgba(0, 0, 0, 0.06)`} 
-                    cursor='pointer'
-                  />
-                } 
-                display='flex'  
-                onClick={() => handleSearchClose()}
-              />
-            </InputGroup>
-          </SearchBoxContainer>
+        <IconButtonContainer>
+          <IconButton 
+            background="none"
+            // mt={navSize === "small" ? 5 : ""}
+            _hover={{background: 'none'}}
+            icon={<FiMenu />}
+            onClick={() => { 
+              if(navSize === 'small') 
+                changeNavSize('large')
+              else
+                changeNavSize('small')
+            }}
+          />
+        </IconButtonContainer>
+        
+        <SearchnAvatar 
+          searchIsOpen={searchIsOpen} 
+          FiSearch={FiSearch} 
+          handleSearchIcon={handleSearchIcon}  
+          handleSearchClose={handleSearchClose}  
+        />
 
-          <Avatar name='Oshigaki Kisame' src='https://bit.ly/broken-link' w='40px' h='40px' />
+
+        <Media lessThan="md">
+          <IconButton 
+            background="none"
+            // mt={navSize === "small" ? 5 : ""}
+            _hover={{background: 'none'}}
+            icon={<BsThreeDotsVertical />}
+            onClick={() => console.log('clicked')}
+          />
+        </Media>
       </Flex>
   )
 }

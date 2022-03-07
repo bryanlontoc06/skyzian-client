@@ -13,9 +13,8 @@ import {
 
 
 
-const Sidebar = () => {
-  const [navSize, changeNavSize] = useState("large");
-  const {isLargerThan1200} = useHooks();
+const Sidebar = ({navSize, changeNavSize}) => {
+  const {isLargerThan1200, isLargerThan992} = useHooks();
 
   useEffect(() => {
     if(isLargerThan1200) {
@@ -32,11 +31,11 @@ const Sidebar = () => {
         pos='sticky'
         // left="5"
         // h="95vh"
-        h="95.5vh"
+        h={isLargerThan992 ? "calc(100vh - 35px)" : "calc(100vh - 95px)"}
         // marginTop="2.5vh"
         boxShadow="0px 4px 12px 0 rgba(0, 0, 0, 0.05)"
-        borderRadius={navSize === "small" ? "15px 0 15px 15px" : "30px 0 30px 30px"}
-        w={navSize === "small" ? "75px" : "200px"}
+        borderRadius={navSize === "small" ? (isLargerThan992 ? "15px 0 15px 15px" : "0px 0 15px 15px") : (isLargerThan992 ? "30px 0 30px 30px" : "0px 0 30px 30px")}
+        w={navSize === "small" ? (isLargerThan992 ? "75px" : "0") : "280px"}
         flexDir="column"
         justifyContent="space-between"
         style={{ transition: `all .3s ease`}}
@@ -62,9 +61,9 @@ const Sidebar = () => {
                 changeNavSize('small')
             }}
           /> */}
-          <NavItem navSize={navSize} icon={FiHome} title="Dashboard" description="This is a Dashboard description" />
-          <NavItem navSize={navSize} icon={FiCalendar} title="Calendar" active description="This is a Calendar description" />
-          <NavItem navSize={navSize} icon={FiUser} title="Clients" description="This is a Client description" />
+          <NavItem navSize={navSize} icon={FiHome} title="Dashboard" description="This is a Dashboard description" isLargerThan992={isLargerThan992} />
+          <NavItem navSize={navSize} icon={FiCalendar} title="Calendar" active description="This is a Calendar description" isLargerThan992={isLargerThan992} />
+          <NavItem navSize={navSize} icon={FiUser} title="Clients" description="This is a Client description" isLargerThan992={isLargerThan992} />
         </Flex>
 
         <Flex
@@ -76,7 +75,7 @@ const Sidebar = () => {
         >
           <Divider display={navSize === 'small' ? 'none' : 'flex'} />
           <Flex mt={4} align='center'>
-            <Avatar size="sm" src="avatar-1.jpg"/>
+            <Avatar size="sm" src="avatar-1.jpg" display={navSize === "small" ? (!isLargerThan992 && 'none') : 'block'} />
             <Flex
               flexDir="column"
               ml={4}

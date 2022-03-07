@@ -12,7 +12,7 @@ import {
     Button
 } from '@chakra-ui/react'
 
-const NavItem = ({navSize, title, icon, active, description}) => {
+const NavItem = ({navSize, title, icon, active, description, isLargerThan992}) => {
 
 
 
@@ -28,7 +28,7 @@ const NavItem = ({navSize, title, icon, active, description}) => {
             <Tooltip hasArrow openDelay={800} label={description} placement='right'>
                 <Link
                     style={{display: 'flex'}}
-                    backgroundColor={active && "#AEC8CA"}
+                    backgroundColor={active? (!isLargerThan992 && navSize === "small" ? '' : '#AEC8CA') : ''} 
                     p={3}
                     borderRadius={8}
                     _hover={{textDecoration: 'none', backgroundColor: '#AEC8CA'}}
@@ -36,7 +36,7 @@ const NavItem = ({navSize, title, icon, active, description}) => {
                 >
                     <MenuButton w="100%">
                         <Flex>
-                            <Icon as={icon} fontSize="xl" color={active? "#82AAAD" : "gray.500"} />
+                            <Icon as={icon} fontSize="xl" color={active? "#82AAAD" : "gray.500"} display={navSize === "small" ? (!isLargerThan992 && 'none') : 'block'} />
                             <Text ml={5} display={navSize == 'small' ? 'none' : 'flex'} >{title}</Text>
                         </Flex>
                     </MenuButton>

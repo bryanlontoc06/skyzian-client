@@ -10,3 +10,19 @@ export const SearchBoxContainer = styled.div `
     background: rgba(0, 0, 0, 0.05);
     transition: all 0.5s cubic-bezier(0, 0.105, 0.035, 1.2);
 `
+
+export const IconButtonContainer = styled.div `
+    display: flex;
+    @media (min-width: 992px) {
+        display: none;
+    }
+`
+
+export const SearchnAvatarContainer = styled.div `
+    display: none;
+    width: 100%;
+    justify-content: space-between; 
+    @media (min-width: 992px) {
+        display: flex;
+    }
+`
