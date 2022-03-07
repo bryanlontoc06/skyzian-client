@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {FiSearch, FiMenu} from 'react-icons/fi';
-import { IconButtonContainer} from './components'
 import SearchnAvatar from './SearchnAvatar';
 import {BsThreeDotsVertical} from 'react-icons/bs';
 import {Media} from '../helper/media'
+import ProfileModal from './ProfileModal';
 import { 
   Flex, 
   Input, 
@@ -13,12 +13,18 @@ import {
   Avatar,
   IconButton
 } from '@chakra-ui/react';
+import { 
+  IconButtonContainer, 
+  AppBarSearchnAvatarContainer
+} from './components'
 
 
 
 const AppBar = ({navSize, changeNavSize}) => {
 
   const [searchIsOpen, setSearchIsOpen] = useState(false);
+  const [openProfileModal, isOpenProfileModal] = useState(false);
+  // const { isOpen, onOpen, onClose } = useDisclosure()
 
   const handleSearchIcon = () => {
     if(!searchIsOpen) {
@@ -28,6 +34,14 @@ const AppBar = ({navSize, changeNavSize}) => {
 
   const handleSearchClose = () => {
     setSearchIsOpen(false);
+  }
+
+  const handleProfileModal = () => {
+    if(openProfileModal) {
+      isOpenProfileModal(false);
+    } else {
+      isOpenProfileModal(true);
+    }
   }
 
   return (
@@ -58,12 +72,14 @@ const AppBar = ({navSize, changeNavSize}) => {
           />
         </IconButtonContainer>
         
-        <SearchnAvatar 
-          searchIsOpen={searchIsOpen} 
-          FiSearch={FiSearch} 
-          handleSearchIcon={handleSearchIcon}  
-          handleSearchClose={handleSearchClose}  
-        />
+        <AppBarSearchnAvatarContainer>
+          <SearchnAvatar 
+            searchIsOpen={searchIsOpen} 
+            FiSearch={FiSearch} 
+            handleSearchIcon={handleSearchIcon}  
+            handleSearchClose={handleSearchClose}  
+          />
+        </AppBarSearchnAvatarContainer>
 
 
         <Media lessThan="md">
@@ -72,9 +88,18 @@ const AppBar = ({navSize, changeNavSize}) => {
             // mt={navSize === "small" ? 5 : ""}
             _hover={{background: 'none'}}
             icon={<BsThreeDotsVertical />}
-            onClick={() => console.log('clicked')}
+            onClick={() => handleProfileModal()}
           />
         </Media>
+
+        <ProfileModal 
+          openProfileModal={openProfileModal} 
+          handleProfileModal={handleProfileModal} 
+          searchIsOpen={searchIsOpen} 
+          FiSearch={FiSearch} 
+          handleSearchIcon={handleSearchIcon}  
+          handleSearchClose={handleSearchClose}  
+        />
       </Flex>
   )
 }

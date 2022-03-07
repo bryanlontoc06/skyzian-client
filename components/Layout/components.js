@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 export const MainContainer = styled.div `
     margin: 1rem;
 `
@@ -19,9 +18,14 @@ export const IconButtonContainer = styled.div `
 `
 
 export const SearchnAvatarContainer = styled.div `
-    display: none;
+    display: flex;
     width: 100%;
     justify-content: space-between; 
+`
+
+export const AppBarSearchnAvatarContainer = styled.div `
+    display: none;
+    width: 100%;
     @media (min-width: 992px) {
         display: flex;
     }
