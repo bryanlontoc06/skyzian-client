@@ -66,7 +66,9 @@ const Sidebar = ({navSize, changeNavSize}) => {
           <NavItem navSize={navSize} icon={FiUser} title="Clients" description="This is a Client description" isLargerThan992={isLargerThan992} />
         </Flex>
 
-        <Flex
+
+
+        {/* <Flex
           p="5%"
           flexDir="column"
           w="100%"
@@ -85,7 +87,7 @@ const Sidebar = ({navSize, changeNavSize}) => {
               <Text color="gray">Admin</Text>
             </Flex>
           </Flex>
-        </Flex>
+        </Flex> */}
       </Flex>
     )
   }
