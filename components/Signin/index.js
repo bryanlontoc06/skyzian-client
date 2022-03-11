@@ -51,9 +51,11 @@ const SigninPage = () => {
           <Image
             // loader={myLoader}
             src={`/images/signin/circle_logo1.png`}
+            loading="eager"
             layout="fill"
             objectFit="contain"
             quality={100}
+            onContextMenu={(e) => e.preventDefault()}
           />
         </LogoContainer>
       </Media>
@@ -78,9 +80,11 @@ const SigninPage = () => {
           <Image
             // loader={myLoader}
             src={`/images/signin/circle_logo1.png`}
+            loading="eager"
             layout="fill"
             objectFit="contain"
             quality={100}
+            onContextMenu={(e) => e.preventDefault()}
           />
         </LogoContainer>
       </Media>
@@ -103,12 +107,12 @@ const SigninPage = () => {
             color={'gray.500'}
           >
             Welcome to <span style={{fontWeight: 'bold'}}>
-              <span style={{color: '#3694dc'}}>Skyzian</span>&nbsp;
+              <span style={{color: '#3694dc'}}>SKYZIAN</span>&nbsp;
                 {/* <span style={{color: '#ffd31f'}}>Dashboard</span> */}
               </span>
           </Text>
           <Text
-            fontSize='xl'
+            fontSize='md'
           >
             Please sign in to your account below.  
           </Text>
@@ -137,7 +141,7 @@ const SigninPage = () => {
                 color='#000'
               />
               <InputRightElement width='4.5rem'>
-                <Button h='1.75rem' size='sm' color={'#000'} onClick={handleClick}>
+                <Button h='1.75rem' size='sm' _focus={'none'} color={'#000'} onClick={handleClick}>
                   {show ? 'Hide' : 'Show'}
                 </Button>
               </InputRightElement>
@@ -160,7 +164,7 @@ const SigninPage = () => {
 
       <BoxFooter>
         <Button colorScheme='transparent' color='#000'  fontSize='sm' _focus={'none'}>Reset your Password</Button>
-        <Button bg="#3694dc" _focus={'none'}>Login</Button>
+        <Button bg="#3694dc" _focus={'none'} _hover={{background: '#3694dc;'}}>Login</Button>
       </BoxFooter>
     </Box> 
 
