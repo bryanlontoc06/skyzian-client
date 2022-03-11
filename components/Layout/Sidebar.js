@@ -61,9 +61,9 @@ const Sidebar = ({navSize, changeNavSize}) => {
                 changeNavSize('small')
             }}
           /> */}
-          <NavItem navSize={navSize} icon={FiHome} title="Dashboard" description="This is a Dashboard description" isLargerThan992={isLargerThan992} />
-          <NavItem navSize={navSize} icon={FiCalendar} title="Calendar" active description="This is a Calendar description" isLargerThan992={isLargerThan992} />
-          <NavItem navSize={navSize} icon={FiUser} title="Clients" description="This is a Client description" isLargerThan992={isLargerThan992} />
+          <NavItem navSize={navSize} icon={FiHome} title="Dashboard" pathRoute="dashboard" description="This is a Dashboard description" isLargerThan992={isLargerThan992} />
+          <NavItem navSize={navSize} icon={FiCalendar} title="Calendar" pathRoute="calendar" active description="This is a Calendar description" isLargerThan992={isLargerThan992} />
+          <NavItem navSize={navSize} icon={FiUser} title="Clients" pathRoute="clients" description="This is a Client description" isLargerThan992={isLargerThan992} />
         </Flex>
 
 

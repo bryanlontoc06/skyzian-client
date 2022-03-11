@@ -1,10 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {MainContainer} from './components'
 import Link from 'next/link'
 import { BoxFooter, BackgroundOverlay, LogoContainer } from './components'
 import Image from 'next/image'
 import {Media} from '../helper/media'
 import axios from 'axios'
+import jwt_decode from "jwt-decode";
 import {ToastContainer, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { 
@@ -31,43 +32,42 @@ import {
 
 
 
-const SignupPage = () => {
-
-  const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
-
+const ActivatePage = (val) => {
 
   const [values, setValues] = useState({
-    email: "bryanlontoc06@gmail.com",
-    password: "123456",
-    buttonText: "Login",
+    name: "",
+    token: "",
+    show: true,
   })
 
-  const { email, password, buttonText } = values;
-
-  const handleChange = (name) => (event) => {
-    // console.log(event.target.value);
-    setValues({ ...values, [name]: event.target.value })
-  }
-
-  const clickSubmit = async () => {
-    setValues({ ...values, buttonText: "Logging in..." })
-    await axios({
+  const { queryToken } = val.val;
+  
+  useEffect(() => {
+    let {name} = jwt_decode(queryToken);
+    if (queryToken) {
+      setValues({ ...values, name, token: queryToken });
+    }
+  }, []);
+  
+  const { name, token, show } = values;
+  
+  const clickSubmit = () => {
+    axios({
       method: 'POST',
-      url: `${process.env.NEXT_PUBLIC_APP_API}/user/signin`,
-      data: { email, password }
+      url: `${process.env.NEXT_PUBLIC_APP_API}/account-activation`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      data: { token }
     })
       .then(response => {
-        console.log('SIGNIN SUCCESS', response);
-
-        // save the response (user, token) to local storage/cokie
-        setValues({ ...values, name: "", email: "", password: "", buttonText: "Logged in" })
-        // toast.success(response.data.message)
-        toast.success(`Hey ${response.data.user.name}, Welcome back!`)
+        console.log('ACCOUNT ACTIVATION', response)
+        setValues({ ...values, show: false })
+        toast.success(response.data.message)
       })
       .catch(error => {
-        console.log('SIGNIN ERROR', error.response.data)
-        setValues({ ...values, buttonText: "Login" })
+        console.log('ACCOUNT ACTIVATION ERROR', error.response.data.error)
         toast.error(error.response.data.error)
       })
   }
@@ -153,66 +153,27 @@ const SignupPage = () => {
           <Text
             fontSize='sm'
           >
-            Please sign in to your account below.  
+            Good day, {name}! Please click the button below to activate your account.  
           </Text>
         </Text>
 
 
-        <Stack spacing={5}>
-          <div>
-            <InputGroup size='md'>
-              <Input
-                pr='4.5rem'
-                type={'email'}
-                placeholder='Enter email'
-                color='#000'
-                onChange={handleChange('email')}
-                value={email}
-              />
-            </InputGroup>
-            <Text fontSize='xs' color={'gray.500'}>We'll never share your email with anyone else.</Text>
-          </div>
-
-          <div>
-            <InputGroup size='md'>
-              <Input
-                pr='4.5rem'
-                type={show ? 'text' : 'password'}
-                placeholder='Enter password'
-                color='#000'
-                onChange={handleChange('password')}
-                value={password}
-              />
-              <InputRightElement width='4.5rem'>
-                <Button h='1.75rem' size='sm' _focus={'none'} color={'#000'} onClick={handleClick}>
-                  {show ? 'Hide' : 'Show'}
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          </div>
-        </Stack>
-
+    
         <Divider 
           mt={'1rem'}
           mb={'1rem'}
         />
 
         <Flex>
-          <Text color={'#000'} display='flex' fontSize='sm'>Already have an account?&nbsp;</Text>
-          <Text color={'gray.500'} fontStyle='italic' fontSize='sm'><Link href="/auth/signin">Sign in now</Link></Text>
+          <Button w='100%' bg="#3694dc" _focus={'none'} _hover={{background: '#3694dc;'}} onClick={clickSubmit}>Activate now</Button>
         </Flex>
       </Box>
 
-      <Divider />
 
-      <BoxFooter>
-        <Button colorScheme='transparent' color='#000'  fontSize='sm' _focus={'none'}>Reset your Password</Button>
-        <Button bg="#3694dc" _focus={'none'} _hover={{background: '#3694dc;'}} onClick={clickSubmit}>{buttonText}</Button>
-      </BoxFooter>
     </Box> 
 
     </MainContainer>
   )
 }
 
-export default SignupPage
+export default ActivatePage

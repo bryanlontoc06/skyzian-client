@@ -12,7 +12,7 @@ import {
     Button
 } from '@chakra-ui/react'
 
-const NavItem = ({navSize, title, icon, active, description, isLargerThan992}) => {
+const NavItem = ({navSize, title, pathRoute, icon, active, description, isLargerThan992}) => {
 
 
 
@@ -33,6 +33,7 @@ const NavItem = ({navSize, title, icon, active, description, isLargerThan992}) =
                     borderRadius={8}
                     _hover={{textDecoration: 'none', backgroundColor: '#AEC8CA'}}
                     w={(navSize === 'large') && '100%'}
+                    href={pathRoute}
                 >
                     <MenuButton w="100%">
                         <Flex>

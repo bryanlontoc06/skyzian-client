@@ -33,17 +33,29 @@ import {
 
 const SignupPage = () => {
 
-  const [show, setShow] = useState(false)
-  const handleClick = () => setShow(!show)
+  const [passwordVal, setPasswordVal] = useState({
+    showPassword: false,
+    showConfirmPassword: false
+  })
+  const handleClick = (name) => {
+    if(name === 'password') {
+      setPasswordVal({...passwordVal, showPassword: !passwordVal.showPassword})
+    } 
+    else {
+      setPasswordVal({...passwordVal, showConfirmPassword: !passwordVal.showConfirmPassword})
+    }
+  }
 
 
   const [values, setValues] = useState({
+    name: "bryan lontoc",
     email: "bryanlontoc06@gmail.com",
     password: "123456",
-    buttonText: "Login",
+    retypePassword: "123456",
+    buttonText: "Submit",
   })
 
-  const { email, password, buttonText } = values;
+  const { name, email, password, retypePassword, buttonText } = values;
 
   const handleChange = (name) => (event) => {
     // console.log(event.target.value);
@@ -51,25 +63,27 @@ const SignupPage = () => {
   }
 
   const clickSubmit = async () => {
-    setValues({ ...values, buttonText: "Logging in..." })
-    await axios({
-      method: 'POST',
-      url: `${process.env.NEXT_PUBLIC_APP_API}/user/signin`,
-      data: { email, password }
-    })
-      .then(response => {
-        console.log('SIGNIN SUCCESS', response);
-
-        // save the response (user, token) to local storage/cokie
-        setValues({ ...values, name: "", email: "", password: "", buttonText: "Logged in" })
-        // toast.success(response.data.message)
-        toast.success(`Hey ${response.data.user.name}, Welcome back!`)
+    setValues({ ...values, buttonText: "Submitting..." })
+    if(values.password === values.retypePassword) {
+      console.log('password match');
+      await axios({
+        method: 'POST',
+        url: `${process.env.NEXT_PUBLIC_APP_API}/user/signup`,
+        data: { name, email, password }
       })
-      .catch(error => {
-        console.log('SIGNIN ERROR', error.response.data)
-        setValues({ ...values, buttonText: "Login" })
-        toast.error(error.response.data.error)
-      })
+        .then(response => {
+          console.log('SIGNUP SUCCESS', response)
+          setValues({ ...values, name: "", email: "", password: "", buttonText: "Submitted" })
+          toast.success(response.data.message)
+        })
+        .catch(error => {
+          console.log('SIGNUP ERROR', error.response.data)
+          setValues({ ...values, buttonText: "Submit" })
+          toast.error(error.response.data.error)
+        })
+    } else {
+      return toast.error(`Password did not match. Please try again.`)
+    }
   }
 
 
@@ -153,12 +167,25 @@ const SignupPage = () => {
           <Text
             fontSize='sm'
           >
-            Please sign in to your account below.  
+            Please sign up below.  
           </Text>
         </Text>
 
 
         <Stack spacing={5}>
+          <div>
+            <InputGroup size='md'>
+              <Input
+                pr='4.5rem'
+                type={'text'}
+                placeholder='Enter name'
+                color='#000'
+                onChange={handleChange('name')}
+                value={name}
+              />
+            </InputGroup>
+          </div>
+
           <div>
             <InputGroup size='md'>
               <Input
@@ -170,22 +197,40 @@ const SignupPage = () => {
                 value={email}
               />
             </InputGroup>
-            <Text fontSize='xs' color={'gray.500'}>We'll never share your email with anyone else.</Text>
+            {/* <Text fontSize='xs' color={'gray.500'}>We'll never share your email with anyone else.</Text> */}
           </div>
 
           <div>
             <InputGroup size='md'>
               <Input
                 pr='4.5rem'
-                type={show ? 'text' : 'password'}
+                type={passwordVal.showPassword ? 'text' : 'password'}
                 placeholder='Enter password'
                 color='#000'
                 onChange={handleChange('password')}
                 value={password}
               />
               <InputRightElement width='4.5rem'>
-                <Button h='1.75rem' size='sm' _focus={'none'} color={'#000'} onClick={handleClick}>
-                  {show ? 'Hide' : 'Show'}
+                <Button h='1.75rem' size='sm' _focus={'none'} color={'#000'} onClick={() => handleClick('password')}>
+                  {passwordVal.showPassword ? 'Hide' : 'Show'}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+          </div>
+
+          <div>
+            <InputGroup size='md'>
+              <Input
+                pr='4.5rem'
+                type={passwordVal.showConfirmPassword ? 'text' : 'password'}
+                placeholder='Confirm password'
+                color='#000'
+                onChange={handleChange('retypePassword')}
+                value={retypePassword}
+              />
+              <InputRightElement width='4.5rem'>
+                <Button h='1.75rem' size='sm' _focus={'none'} color={'#000'} onClick={() => handleClick('confirmPassword')}>
+                  {passwordVal.showConfirmPassword ? 'Hide' : 'Show'}
                 </Button>
               </InputRightElement>
             </InputGroup>
